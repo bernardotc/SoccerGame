@@ -75,7 +75,7 @@ public class GameEngineUsingJBox2D {
         
         left = new SoccerTeam(true, Lineup.lineups.BALANCED, Color.BLUE);
         right = new SoccerTeam(false, Lineup.lineups.BALANCED, Color.RED);
-        ball = new SoccerBall(WORLD_WIDTH / 2, WORLD_HEIGHT * 6 / 16, 0, 0, .1f, Color.WHITE, 1, 2);
+        ball = new SoccerBall(WORLD_WIDTH / 2, WORLD_HEIGHT * 6 / 16, 0, 0, .1f, Color.WHITE, 1.3f, 1.5f);
 
         barriers = new ArrayList<AnchoredBarrier>();
 
@@ -119,7 +119,7 @@ public class GameEngineUsingJBox2D {
         final GameView view = new GameView(game);
         JEasyFrame frame = new JEasyFrame(view, "Basic Physics Engine");
         //frame.addKeyListener(new BasicKeyListener());
-        //view.addMouseMotionListener(new BasicMouseListener());
+        view.addMouseMotionListener(new MouseListener());
         game.startThread(view);
     }
 
@@ -141,9 +141,11 @@ public class GameEngineUsingJBox2D {
         int POSITION_ITERATIONS = NUM_EULER_UPDATES_PER_SCREEN_REFRESH;
         for (SoccerPlayer p:left.getPlayers()) {
             p.notificationOfNewTimestep();
+            p.checkMouseEvent();
         }
         for (SoccerPlayer p:right.getPlayers()) {
             p.notificationOfNewTimestep();
+            p.checkMouseEvent();
         }
         ball.notificationOfNewTimestep();
         world.step(DELTA_T, VELOCITY_ITERATIONS, POSITION_ITERATIONS);

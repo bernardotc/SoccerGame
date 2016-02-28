@@ -27,7 +27,7 @@ public class SoccerTeam {
         lineup = new Lineup(l, this.leftSideOfScreen);
         for (int x = 0; x < lineup.getPositions().size(); x++) {
             Vec2 pos = lineup.getPositions().get(x);
-            players.add(new SoccerPlayer(pos.x, pos.y, 0, 0, .3f, color, 10, 2));
+            players.add(new SoccerPlayer(pos.x, pos.y, 0, 0, .3f, color, 10, 2f));
         }
     }
 
