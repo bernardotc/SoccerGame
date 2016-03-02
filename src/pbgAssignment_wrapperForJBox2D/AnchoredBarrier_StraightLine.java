@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import org.jbox2d.collision.shapes.ChainShape;
+import org.jbox2d.collision.shapes.EdgeShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -28,15 +29,16 @@ public class AnchoredBarrier_StraightLine extends AnchoredBarrier {
         World w = GameEngineUsingJBox2D.world;
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyType.STATIC;
+        bodyDef.type = BodyType.KINEMATIC;
         bodyDef.position = new Vec2(startx, starty);
         Body body = w.createBody(bodyDef);
         this.body = body;
         Vec2[] vertices = new Vec2[]{new Vec2(), new Vec2(endx - startx, endy - starty)};
         ChainShape chainShape = new ChainShape();
         chainShape.createChain(vertices, vertices.length);
+        EdgeShape edgeShape = new EdgeShape();
+        edgeShape.set(vertices[0], vertices[1]);
         body.createFixture(chainShape, 0);
-
         this.col = col;
     }
 
@@ -48,7 +50,7 @@ public class AnchoredBarrier_StraightLine extends AnchoredBarrier {
         World w = GameEngineUsingJBox2D.world;
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyType.STATIC;
+        bodyDef.type = BodyType.KINEMATIC;
         bodyDef.position = new Vec2(startx, starty);
         bodyDef.userData = userData;
         Body body = w.createBody(bodyDef);
@@ -56,8 +58,9 @@ public class AnchoredBarrier_StraightLine extends AnchoredBarrier {
         Vec2[] vertices = new Vec2[]{new Vec2(), new Vec2(endx - startx, endy - starty)};
         ChainShape chainShape = new ChainShape();
         chainShape.createChain(vertices, vertices.length);
+        EdgeShape edgeShape = new EdgeShape();
+        edgeShape.set(vertices[0], vertices[1]);
         body.createFixture(chainShape, 0);
-
         this.col = col;
     }
 

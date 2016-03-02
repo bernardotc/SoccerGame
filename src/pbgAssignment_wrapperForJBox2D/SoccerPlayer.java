@@ -21,6 +21,8 @@ public class SoccerPlayer extends BasicCircle {
 
     public SoccerPlayer(float sx, float sy, float vx, float vy, float radius, Color col, float mass, float rollingFriction) {
         super(sx, sy, vx, vy, radius, col, mass, rollingFriction);
+        body.m_fixtureList.m_friction = 0f;
+        body.setFixedRotation(true);
     }
 
     @Override
@@ -75,10 +77,27 @@ public class SoccerPlayer extends BasicCircle {
         } else {
             if (MouseListener.getPlayer() == this) {
                 MouseListener.setPlayer(null);
-                body.setLinearVelocity(new Vec2(velX / 25, velY / 25));
+                Vec2 velocity = new Vec2(GameEngineUsingJBox2D.convertScreenXtoWorldX(velX), GameEngineUsingJBox2D.convertScreenXtoWorldX(velY));
+                velocity.mulLocal(5);
+                body.setLinearVelocity(velocity);
             }
             click = false;
         }
+    }
+    
+    public void checkPlayerNotInGoal(float leftLimit, float rightLimit) {
+        if (body.getPosition().x < leftLimit) {
+            System.out.println(body.getPosition().x);
+            body.setTransform(new Vec2(leftLimit * 2, body.getPosition().y), 0);
+        } else if (body.getPosition().x > rightLimit) {
+            body.setTransform(new Vec2(rightLimit * 10 / 13, body.getPosition().y), 0);
+        }
+    }
+    
+    public void setToStartingPosition(Vec2 position) {
+        body.setAngularVelocity(0);
+        body.setLinearVelocity(new Vec2(0, 0));
+        body.setTransform(position, 0);
     }
 
 }

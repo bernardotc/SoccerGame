@@ -23,7 +23,7 @@ public class GameEngineUsingJBox2D {
 
     // frame dimensions
     public static final int SCREEN_HEIGHT = 768;
-    public static final int SCREEN_WIDTH = 1024;
+    public static final int SCREEN_WIDTH = 1360;
     public static final Dimension FRAME_SIZE = new Dimension(
             SCREEN_WIDTH, SCREEN_HEIGHT);
     public static final float WORLD_WIDTH = 10;//metres
@@ -34,7 +34,7 @@ public class GameEngineUsingJBox2D {
     public static World world; // Box2D container for all bodies and barriers 
 
     // sleep time between two drawn frames in milliseconds 
-    public static final int DELAY = 20;
+    public static final int DELAY = 10;
     public static final int NUM_EULER_UPDATES_PER_SCREEN_REFRESH = 10;
     // estimate for time between two frames in seconds 
     public static final float DELTA_T = DELAY / 1000.0f;
@@ -65,17 +65,16 @@ public class GameEngineUsingJBox2D {
     };
 
     public List<AnchoredBarrier> barriers;
-    public SoccerTeam left, right;
-    public SoccerBall ball;
+    public SoccerGame soccer;
 
     public GameEngineUsingJBox2D() {
         world = new World(new Vec2(0, (float) -GRAVITY)); // create Box2D container for everything
         world.setContinuousPhysics(true);
+        CollisionDetection listener = new CollisionDetection();
+        world.setContactListener(listener);
         LayoutMode layout = LayoutMode.SOCCER_FIELD;
         
-        left = new SoccerTeam(true, Lineup.lineups.BALANCED, Color.BLUE);
-        right = new SoccerTeam(false, Lineup.lineups.BALANCED, Color.RED);
-        ball = new SoccerBall(WORLD_WIDTH / 2, WORLD_HEIGHT * 6 / 16, 0, 0, .1f, Color.WHITE, 1.3f, 1.5f);
+        soccer = new SoccerGame();
 
         barriers = new ArrayList<AnchoredBarrier>();
 
@@ -93,22 +92,22 @@ public class GameEngineUsingJBox2D {
             case SOCCER_FIELD: {
                 // anticlockwise listing
                 // These would be better created as a JBox2D "chain" type object for efficiency and potentially better collision detection at joints. 
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH / 16, WORLD_HEIGHT / 16, WORLD_WIDTH * 15 / 16, WORLD_HEIGHT / 16, Color.WHITE));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 15 / 16, WORLD_HEIGHT / 16, WORLD_WIDTH * 15 / 16, WORLD_HEIGHT * 4 / 16, Color.WHITE));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3 / 16, WORLD_HEIGHT  * 2/ 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT *2/ 16, Color.WHITE, "wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT *2 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "wall"));
 
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 15 / 16, WORLD_HEIGHT * 4 / 16, WORLD_WIDTH * 63 / 64, WORLD_HEIGHT * 4 / 16, Color.WHITE));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 63 / 64, WORLD_HEIGHT * 4 / 16, WORLD_WIDTH * 63 / 64, WORLD_HEIGHT * 8 / 16, Color.WHITE));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 63 / 64, WORLD_HEIGHT * 8 / 16, WORLD_WIDTH * 15 / 16, WORLD_HEIGHT * 8 / 16, Color.WHITE));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "wall"));
 
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 15 / 16, WORLD_HEIGHT * 8 / 16, WORLD_WIDTH * 15 / 16, WORLD_HEIGHT * 11 / 16, Color.WHITE));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 15 / 16, WORLD_HEIGHT * 11 / 16, WORLD_WIDTH / 16, WORLD_HEIGHT * 11 / 16, Color.WHITE));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH / 16, WORLD_HEIGHT * 11 / 16, WORLD_WIDTH / 16, WORLD_HEIGHT * 8 / 16, Color.WHITE));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 12 / 16, Color.WHITE, "wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 12 / 16, WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 12 / 16, Color.WHITE, "wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 12 / 16, WORLD_WIDTH *3/ 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "wall"));
 
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH / 16, WORLD_HEIGHT * 8 / 16, WORLD_WIDTH / 64, WORLD_HEIGHT * 8 / 16, Color.WHITE));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH / 64, WORLD_HEIGHT * 4 / 16, WORLD_WIDTH / 64, WORLD_HEIGHT * 8 / 16, Color.WHITE));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH / 64, WORLD_HEIGHT * 4 / 16, WORLD_WIDTH / 16, WORLD_HEIGHT * 4 / 16, Color.WHITE));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH *3/ 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH *2 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH* 2/ 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH *2/ 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH*2 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH *3/ 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "wall"));
 
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH / 16, WORLD_HEIGHT * 4 / 16, WORLD_WIDTH / 16, WORLD_HEIGHT / 16, Color.WHITE));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3/ 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH  * 3/ 16, WORLD_HEIGHT* 2 / 16, Color.WHITE, "wall"));
                 break;
             }
         }
@@ -117,7 +116,7 @@ public class GameEngineUsingJBox2D {
     public static void main(String[] args) throws Exception {
         final GameEngineUsingJBox2D game = new GameEngineUsingJBox2D();
         final GameView view = new GameView(game);
-        JEasyFrame frame = new JEasyFrame(view, "Basic Physics Engine");
+        JEasyFrame frame = new JEasyFrame(view, "Soccer Game");
         //frame.addKeyListener(new BasicKeyListener());
         view.addMouseMotionListener(new MouseListener());
         game.startThread(view);
@@ -139,15 +138,7 @@ public class GameEngineUsingJBox2D {
     public void update() {
         int VELOCITY_ITERATIONS = NUM_EULER_UPDATES_PER_SCREEN_REFRESH;
         int POSITION_ITERATIONS = NUM_EULER_UPDATES_PER_SCREEN_REFRESH;
-        for (SoccerPlayer p:left.getPlayers()) {
-            p.notificationOfNewTimestep();
-            p.checkMouseEvent();
-        }
-        for (SoccerPlayer p:right.getPlayers()) {
-            p.notificationOfNewTimestep();
-            p.checkMouseEvent();
-        }
-        ball.notificationOfNewTimestep();
+        soccer.update();
         world.step(DELTA_T, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
     }
 }

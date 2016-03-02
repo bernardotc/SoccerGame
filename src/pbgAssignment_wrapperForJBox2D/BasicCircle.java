@@ -26,16 +26,22 @@ public class BasicCircle {
 
     public final int SCREEN_RADIUS;
 
-    private final float rollingFriction, mass;
+    private final float mass;
     public final Color col;
     protected final Body body;
 
     public BasicCircle(float sx, float sy, float vx, float vy, float radius, Color col, float mass, float rollingFriction) {
+        this(sx, sy, vx, vy, radius, col, mass, rollingFriction, "");
+    }
+    
+    public BasicCircle(float sx, float sy, float vx, float vy, float radius, Color col, float mass, float rollingFriction, String data) {
         World w = GameEngineUsingJBox2D.world; // a Box2D object
         BodyDef bodyDef = new BodyDef();  // a Box2D object
         bodyDef.type = BodyType.DYNAMIC; // this says the physics engine is to move it automatically
         bodyDef.position.set(sx, sy);
         bodyDef.linearVelocity.set(vx, vy);
+        bodyDef.linearDamping = rollingFriction;
+        bodyDef.userData = data;
         this.body = w.createBody(bodyDef);
         CircleShape circleShape = new CircleShape();// This class is from Box2D
         circleShape.m_radius = radius;
@@ -45,7 +51,6 @@ public class BasicCircle {
         fixtureDef.friction = 0.0f;// this is surface friction;
         fixtureDef.restitution = 1.0f;
         body.createFixture(fixtureDef);
-        this.rollingFriction = rollingFriction;
         this.mass = mass;
         this.SCREEN_RADIUS = (int) Math.max(GameEngineUsingJBox2D.convertWorldLengthToScreenLength(radius), 1);
         this.col = col;
@@ -56,13 +61,5 @@ public class BasicCircle {
         int y = GameEngineUsingJBox2D.convertWorldYtoScreenY(body.getPosition().y);
         g.setColor(col);
         g.fillOval(x - SCREEN_RADIUS, y - SCREEN_RADIUS, 2 * SCREEN_RADIUS, 2 * SCREEN_RADIUS);
-    }
-
-    public void notificationOfNewTimestep() {
-        if (rollingFriction > 0) {
-            Vec2 rollingFrictionForce = new Vec2(body.getLinearVelocity());
-            rollingFrictionForce = rollingFrictionForce.mul(-rollingFriction * mass);
-            body.applyForceToCenter(rollingFrictionForce);
-        }
     }
 }

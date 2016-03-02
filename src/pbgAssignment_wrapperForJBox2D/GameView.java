@@ -41,13 +41,7 @@ public class GameView extends JComponent {
         for (AnchoredBarrier b : game.barriers) {
             b.draw(g);
         }
-        for (SoccerPlayer p : game.left.getPlayers()) {
-            p.draw(g);
-        }
-        for (SoccerPlayer p : game.right.getPlayers()) {
-            p.draw(g);
-        }
-        game.ball.draw(g);
+        game.soccer.draw(g);
 
     }
 

@@ -27,11 +27,18 @@ public class SoccerTeam {
         lineup = new Lineup(l, this.leftSideOfScreen);
         for (int x = 0; x < lineup.getPositions().size(); x++) {
             Vec2 pos = lineup.getPositions().get(x);
-            players.add(new SoccerPlayer(pos.x, pos.y, 0, 0, .3f, color, 10, 2f));
+            players.add(new SoccerPlayer(pos.x, pos.y, 0, 0, .2f, color, 10, 2f));
         }
     }
 
     public ArrayList<SoccerPlayer> getPlayers() {
         return players;
+    }
+    
+    public void setPlayersToLineUp() {
+        for (int x = 0; x < lineup.getPositions().size(); x++) {
+            Vec2 pos = lineup.getPositions().get(x);
+            players.get(x).setToStartingPosition(pos);
+        }
     }
 }
