@@ -61,6 +61,10 @@ public class SoccerTeam {
     public Color getColor() {
         return color;
     }
+
+    public Lineup getLineup() {
+        return lineup;
+    }
     
     public boolean playersNotMoving() {
         for (SoccerPlayer p:players) {
@@ -73,5 +77,16 @@ public class SoccerTeam {
     public void checkPlayersNotInGoal(float leftLimit, float rightLimit) {
         for (SoccerPlayer p:players)
             p.checkPlayerNotInGoal(leftLimit, rightLimit);
-    }  
+    }
+    
+    public void changeLineup() {
+        if (lineup.strategy.equals(Lineup.lineups.BALANCED)) {
+            lineup.strategy = Lineup.lineups.THREE_DEFENSE;
+        } else if (lineup.strategy.equals(Lineup.lineups.THREE_DEFENSE)) {
+            lineup.strategy = Lineup.lineups.WING_ATTACK;
+        } else if (lineup.strategy.equals(Lineup.lineups.WING_ATTACK)) {
+            lineup.strategy = Lineup.lineups.BALANCED;
+        }
+        lineup.resetPositions(leftSideOfScreen);
+    }
 }

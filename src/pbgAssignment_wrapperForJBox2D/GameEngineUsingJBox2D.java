@@ -122,7 +122,7 @@ public class GameEngineUsingJBox2D {
         final GameEngineUsingJBox2D game = new GameEngineUsingJBox2D();
         final GameView view = new GameView(game);
         JEasyFrame frame = new JEasyFrame(view, "Soccer Game");
-        //frame.addKeyListener(new BasicKeyListener());
+        frame.addKeyListener(new KeyListener());
         view.addMouseMotionListener(new MouseListener());
         game.startThread(view);
     }

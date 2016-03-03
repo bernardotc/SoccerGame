@@ -15,18 +15,26 @@ import org.jbox2d.common.Vec2;
 public class Lineup {
 
     ArrayList<Vec2> positions;
+    lineups strategy;
 
     public static enum lineups {
-
-        BALANCED
+        BALANCED, WING_ATTACK, THREE_DEFENSE
     }
 
     Lineup(lineups l, boolean leftSideOfScreen) {
+        strategy = l;
+        resetPositions(leftSideOfScreen);
+    }
+
+    public ArrayList<Vec2> getPositions() {
+        return positions;
+    }
+    
+    public final void resetPositions(boolean leftSideOfScreen) {
         positions = new ArrayList<>();
-        switch (l) {
+        switch (strategy) {
             case BALANCED: {
                 if (leftSideOfScreen) {
-                    float factor = 0;
                     positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH * 4 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 7 / 16));
                     positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH * 5 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 10 / 16));
                     positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH * 5 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 4 / 16));
@@ -41,11 +49,39 @@ public class Lineup {
                 }
                 break;
             }
+            case WING_ATTACK: {
+                if (leftSideOfScreen) {
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH * 4 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 7 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH * 7 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 11 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH * 6 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 9 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH * 6 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 5 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH * 7 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 3 / 16));
+                } else {
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH - GameEngineUsingJBox2D.WORLD_WIDTH * 4 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 7 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH - GameEngineUsingJBox2D.WORLD_WIDTH * 7 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 11 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH - GameEngineUsingJBox2D.WORLD_WIDTH * 6 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 9 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH - GameEngineUsingJBox2D.WORLD_WIDTH * 6 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 5 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH - GameEngineUsingJBox2D.WORLD_WIDTH * 7 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 3 / 16));
+                }
+                break;
+            }
+            case THREE_DEFENSE: {
+                if (leftSideOfScreen) {
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH * 4 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 9 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH * 4 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 7 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH * 4 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 5 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH * 6 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 8 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH * 6 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 6 / 16));
+                } else {
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH - GameEngineUsingJBox2D.WORLD_WIDTH * 4 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 9 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH - GameEngineUsingJBox2D.WORLD_WIDTH * 4 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 7 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH - GameEngineUsingJBox2D.WORLD_WIDTH * 4 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 5 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH - GameEngineUsingJBox2D.WORLD_WIDTH * 6 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 8 / 16));
+                    positions.add(new Vec2(GameEngineUsingJBox2D.WORLD_WIDTH - GameEngineUsingJBox2D.WORLD_WIDTH * 6 / 16, GameEngineUsingJBox2D.WORLD_HEIGHT * 6 / 16));
+                }
+                break;
+            }
         }
-    }
-
-    public ArrayList<Vec2> getPositions() {
-        return positions;
     }
     
 }
