@@ -31,7 +31,7 @@ public class SoccerGame {
     public final void reset() {
         leftSide = new SoccerTeam(true, Lineup.lineups.BALANCED, Color.BLUE);
         rightSide = new SoccerTeam(false, Lineup.lineups.BALANCED, Color.RED);
-        ball = new SoccerBall(WORLD_WIDTH / 2, WORLD_HEIGHT * 7 / 16, 0, 0, .1f, Color.WHITE, 2.5f, 2f, "ball");
+        ball = new SoccerBall(WORLD_WIDTH / 2, WORLD_HEIGHT * 7 / 16, 0, 0, .1f, Color.WHITE, 2.5f, 2f, "ball", -1);
         leftScore = rightScore = 0;
         leftTurn = Math.random() <= .49;
     }
@@ -52,12 +52,15 @@ public class SoccerGame {
     public void update() {
         for (SoccerPlayer p : leftSide.getPlayers()) {
             p.checkMouseEvent();
+            p.modifyPositionAccordingToWall();
             //p.checkPlayerNotInGoal(WORLD_WIDTH * 3 / 16, WORLD_WIDTH * 13 / 16);
         }
         for (SoccerPlayer p : rightSide.getPlayers()) {
             p.checkMouseEvent();
+            p.modifyPositionAccordingToWall();
             //p.checkPlayerNotInGoal(WORLD_WIDTH * 3 / 16, WORLD_WIDTH * 13 / 16);
         }
+        ball.modifyPositionAccordingToWall();
         if (ball.checkIfGoal(WORLD_WIDTH * 3 / 16, WORLD_WIDTH * 13 / 16) != null) {
             goalReset(ball.checkIfGoal(WORLD_WIDTH * 3 / 16, WORLD_WIDTH * 13 / 16));
         }

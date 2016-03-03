@@ -8,7 +8,7 @@ package pbgAssignment_wrapperForJBox2D;
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
-import org.jbox2d.dynamics.Fixture;
+import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.contacts.Contact;
 
 /**
@@ -17,21 +17,64 @@ import org.jbox2d.dynamics.contacts.Contact;
  */
 public class CollisionDetection implements ContactListener {
 
+    public static boolean circleCollisioningWithBottomWall = false;
+    public static boolean circleCollisioningWithLeftWall = false;
+    public static boolean circleCollisioningWithRightWall = false;
+    public static boolean circleCollisioningWithTopWall = false;
+    public static Body circleCollidingBody = null;
+    
     @Override
     public void beginContact(Contact contact) {
         String aux = (String) contact.m_fixtureA.m_body.getUserData();
         String aux2 = (String) contact.m_fixtureB.m_body.getUserData();
         /*if (aux != null && aux.equals("ball") || aux2 != null && aux2.equals("ball")) {
             System.out.println("Collision");
-        } else */if ((aux != null && aux.equals("ball") && aux2 != null && aux2.equals("wall")) || (aux != null && aux.equals("wall") && aux2 != null && aux2.equals("ball"))) {
-            System.out.println("ball wall collision");
-            System.out.println(contact.m_fixtureB.m_body.getPosition().x + " : " + contact.m_fixtureA.m_body.getPosition().y);
+        } else */
+        if (aux != null && aux.equals("bottom wall") || aux2 != null && aux2.equals("bottom wall")) {
+            System.out.println("Bottom");
+            circleCollisioningWithBottomWall = true;
+            if (aux != null && (aux.equals("player") || aux.equals("ball"))) {
+                circleCollidingBody = contact.m_fixtureA.m_body;
+            } else {
+                circleCollidingBody = contact.m_fixtureB.m_body;
+            }
+        } else if ((aux != null && aux.equals("left wall") || aux2 != null && aux2.equals("left wall")) || (aux != null && aux.equals("left goal") || aux2 != null && aux2.equals("left goal"))) {
+            circleCollisioningWithLeftWall = true;
+            if (aux != null && (aux.equals("player") || aux.equals("ball"))) {
+                circleCollidingBody = contact.m_fixtureA.m_body;
+            } else {
+                circleCollidingBody = contact.m_fixtureB.m_body;
+            }
+        } else if ((aux != null && aux.equals("right wall") || aux2 != null && aux2.equals("right wall")) || (aux != null && aux.equals("right goal") || aux2 != null && aux2.equals("right goal"))) {
+            circleCollisioningWithRightWall = true;
+            if (aux != null && (aux.equals("player") || aux.equals("ball"))) {
+                circleCollidingBody = contact.m_fixtureA.m_body;
+            } else {
+                circleCollidingBody = contact.m_fixtureB.m_body;
+            }
+        } else if (aux != null && aux.equals("top wall") || aux2 != null && aux2.equals("top wall")) {
+            circleCollisioningWithTopWall = true;
+            if (aux != null && (aux.equals("player") || aux.equals("ball"))) {
+                circleCollidingBody = contact.m_fixtureA.m_body;
+            } else {
+                circleCollidingBody = contact.m_fixtureB.m_body;
+            }
         }
     }
 
     @Override
     public void endContact(Contact contact) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String aux = (String) contact.m_fixtureA.m_body.getUserData();
+        String aux2 = (String) contact.m_fixtureB.m_body.getUserData();
+        if (aux != null && aux.equals("bottom wall") || aux2 != null && aux2.equals("bottom wall")) {
+            circleCollisioningWithBottomWall = false;
+        } else if ((aux != null && aux.equals("left wall") || aux2 != null && aux2.equals("left wall")) || (aux != null && aux.equals("left goal") || aux2 != null && aux2.equals("left goal"))) {
+            circleCollisioningWithLeftWall = false;
+        } else if ((aux != null && aux.equals("right wall") || aux2 != null && aux2.equals("right wall")) || (aux != null && aux.equals("right goal") || aux2 != null && aux2.equals("right goal"))) {
+            circleCollisioningWithRightWall = false;
+        } else if (aux != null && aux.equals("top wall") || aux2 != null && aux2.equals("top wall")) {
+            circleCollisioningWithTopWall = false;
+        }
     }
 
     @Override

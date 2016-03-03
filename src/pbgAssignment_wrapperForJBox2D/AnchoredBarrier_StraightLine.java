@@ -22,28 +22,14 @@ public class AnchoredBarrier_StraightLine extends AnchoredBarrier {
     public final Body body;
 
     public AnchoredBarrier_StraightLine(float startx, float starty, float endx, float endy, Color col) {
-
-        startPos = new Vec2(startx, starty);
-        endPos = new Vec2(endx, endy);
-
-        World w = GameEngineUsingJBox2D.world;
-
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyType.KINEMATIC;
-        bodyDef.position = new Vec2(startx, starty);
-        Body body = w.createBody(bodyDef);
-        this.body = body;
-        Vec2[] vertices = new Vec2[]{new Vec2(), new Vec2(endx - startx, endy - starty)};
-        ChainShape chainShape = new ChainShape();
-        chainShape.createChain(vertices, vertices.length);
-        EdgeShape edgeShape = new EdgeShape();
-        edgeShape.set(vertices[0], vertices[1]);
-        body.createFixture(chainShape, 0);
-        this.col = col;
+        this(startx, starty, endx, endy, col, "");
     }
 
     public AnchoredBarrier_StraightLine(float startx, float starty, float endx, float endy, Color col, String userData) {
-
+        this(startx, starty, endx, endy, col, userData, 0);
+    }
+    
+    public AnchoredBarrier_StraightLine(float startx, float starty, float endx, float endy, Color col, String userData, int groupIndex) {
         startPos = new Vec2(startx, starty);
         endPos = new Vec2(endx, endy);
 
@@ -62,6 +48,7 @@ public class AnchoredBarrier_StraightLine extends AnchoredBarrier {
         edgeShape.set(vertices[0], vertices[1]);
         body.createFixture(chainShape, 0);
         this.col = col;
+        body.m_fixtureList.m_filter.groupIndex = groupIndex;
     }
 
     @Override

@@ -35,6 +35,10 @@ public class BasicCircle {
     }
     
     public BasicCircle(float sx, float sy, float vx, float vy, float radius, Color col, float mass, float rollingFriction, String data) {
+        this(sx, sy, vx, vy, radius, col, mass, rollingFriction, "", 0);
+    }
+    
+    public BasicCircle(float sx, float sy, float vx, float vy, float radius, Color col, float mass, float rollingFriction, String data, int groupIndex) {
         World w = GameEngineUsingJBox2D.world; // a Box2D object
         BodyDef bodyDef = new BodyDef();  // a Box2D object
         bodyDef.type = BodyType.DYNAMIC; // this says the physics engine is to move it automatically
@@ -51,6 +55,7 @@ public class BasicCircle {
         fixtureDef.friction = 0.0f;// this is surface friction;
         fixtureDef.restitution = 1.0f;
         body.createFixture(fixtureDef);
+        body.m_fixtureList.m_filter.groupIndex = groupIndex;
         this.mass = mass;
         this.SCREEN_RADIUS = (int) Math.max(GameEngineUsingJBox2D.convertWorldLengthToScreenLength(radius), 1);
         this.col = col;
@@ -61,5 +66,17 @@ public class BasicCircle {
         int y = GameEngineUsingJBox2D.convertWorldYtoScreenY(body.getPosition().y);
         g.setColor(col);
         g.fillOval(x - SCREEN_RADIUS, y - SCREEN_RADIUS, 2 * SCREEN_RADIUS, 2 * SCREEN_RADIUS);
+    }
+    
+    public void modifyPositionAccordingToWall() {
+        if (CollisionDetection.circleCollisioningWithBottomWall && CollisionDetection.circleCollidingBody == this.body) {
+            body.setTransform(new Vec2(body.getPosition().x, body.getPosition().y+.01f), 0);
+        } else if (CollisionDetection.circleCollisioningWithLeftWall && CollisionDetection.circleCollidingBody == this.body) {
+            body.setTransform(new Vec2(body.getPosition().x + .02f, body.getPosition().y), 0);
+        } else if (CollisionDetection.circleCollisioningWithRightWall && CollisionDetection.circleCollidingBody == this.body) {
+            body.setTransform(new Vec2(body.getPosition().x - .02f, body.getPosition().y), 0);
+        } else if (CollisionDetection.circleCollisioningWithTopWall && CollisionDetection.circleCollidingBody == this.body) {
+            body.setTransform(new Vec2(body.getPosition().x, body.getPosition().y-.01f), 0);
+        } 
     }
 }

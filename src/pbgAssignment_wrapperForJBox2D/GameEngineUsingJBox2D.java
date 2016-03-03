@@ -92,22 +92,27 @@ public class GameEngineUsingJBox2D {
             case SOCCER_FIELD: {
                 // anticlockwise listing
                 // These would be better created as a JBox2D "chain" type object for efficiency and potentially better collision detection at joints. 
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3 / 16, WORLD_HEIGHT  * 2/ 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT *2/ 16, Color.WHITE, "wall"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT *2 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3 / 16, WORLD_HEIGHT  * 2/ 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT *2/ 16, Color.WHITE, "bottom wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT *2 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "right wall"));
 
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "wall"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "wall"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "bottom wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "right wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "top wall"));
 
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 12 / 16, Color.WHITE, "wall"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 12 / 16, WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 12 / 16, Color.WHITE, "wall"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 12 / 16, WORLD_WIDTH *3/ 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 12 / 16, Color.WHITE, "right wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 12 / 16, WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 12 / 16, Color.WHITE, "top wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 12 / 16, WORLD_WIDTH *3/ 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "left wall"));
 
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH *3/ 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH *2 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "wall"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH* 2/ 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH *2/ 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "wall"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH*2 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH *3/ 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH *3/ 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH *2 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "top wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH* 2/ 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH *2/ 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "left wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH*2 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH *3/ 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "bottom wall"));
 
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3/ 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH  * 3/ 16, WORLD_HEIGHT* 2 / 16, Color.WHITE, "wall"));
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3/ 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH  * 3/ 16, WORLD_HEIGHT* 2 / 16, Color.WHITE, "left wall"));
+                
+                // left goal line
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH* 3/ 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 3/ 16, WORLD_HEIGHT * 9 / 16, Color.GRAY, "left goal", -1));
+                // right goal line
+                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 9 / 16, Color.GRAY, "right goal", -1));
                 break;
             }
         }
