@@ -20,8 +20,8 @@ public class SoccerPlayer extends BasicCircle {
     private int velX, velY;
     private boolean turn = false;
 
-    public SoccerPlayer(float sx, float sy, float vx, float vy, float radius, Color col, float mass, float rollingFriction, String data) {
-        super(sx, sy, vx, vy, radius, col, mass, rollingFriction, data);
+    public SoccerPlayer(float sx, float sy, float vx, float vy, float radius, Color col, float mass, float rollingFriction, String data, boolean collision) {
+        super(sx, sy, vx, vy, radius, col, mass, rollingFriction, data, collision);
         body.m_fixtureList.m_friction = 0f;
         body.setFixedRotation(true);
     }

@@ -37,14 +37,14 @@ public class CollisionDetection implements ContactListener {
             } else {
                 circleCollidingBody = contact.m_fixtureB.m_body;
             }
-        } else if ((aux != null && aux.equals("left wall") || aux2 != null && aux2.equals("left wall")) || (aux != null && aux.equals("left goal") || aux2 != null && aux2.equals("left goal"))) {
+        } else if ((aux != null && aux.equals("left wall") || aux2 != null && aux2.equals("left wall"))) {
             circleCollisioningWithLeftWall = true;
             if (aux != null && (aux.equals("player") || aux.equals("ball"))) {
                 circleCollidingBody = contact.m_fixtureA.m_body;
             } else {
                 circleCollidingBody = contact.m_fixtureB.m_body;
             }
-        } else if ((aux != null && aux.equals("right wall") || aux2 != null && aux2.equals("right wall")) || (aux != null && aux.equals("right goal") || aux2 != null && aux2.equals("right goal"))) {
+        } else if ((aux != null && aux.equals("right wall") || aux2 != null && aux2.equals("right wall"))) {
             circleCollisioningWithRightWall = true;
             if (aux != null && (aux.equals("player") || aux.equals("ball"))) {
                 circleCollidingBody = contact.m_fixtureA.m_body;
@@ -67,9 +67,9 @@ public class CollisionDetection implements ContactListener {
         String aux2 = (String) contact.m_fixtureB.m_body.getUserData();
         if (aux != null && aux.equals("bottom wall") || aux2 != null && aux2.equals("bottom wall")) {
             circleCollisioningWithBottomWall = false;
-        } else if ((aux != null && aux.equals("left wall") || aux2 != null && aux2.equals("left wall")) || (aux != null && aux.equals("left goal") || aux2 != null && aux2.equals("left goal"))) {
+        } else if ((aux != null && aux.equals("left wall") || aux2 != null && aux2.equals("left wall"))) {
             circleCollisioningWithLeftWall = false;
-        } else if ((aux != null && aux.equals("right wall") || aux2 != null && aux2.equals("right wall")) || (aux != null && aux.equals("right goal") || aux2 != null && aux2.equals("right goal"))) {
+        } else if ((aux != null && aux.equals("right wall") || aux2 != null && aux2.equals("right wall"))) {
             circleCollisioningWithRightWall = false;
         } else if (aux != null && aux.equals("top wall") || aux2 != null && aux2.equals("top wall")) {
             circleCollisioningWithTopWall = false;

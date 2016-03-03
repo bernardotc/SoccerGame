@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 public class KeyListener extends KeyAdapter {
     private static boolean leftScreenChangeLineupButtonPressed;
     private static boolean rightScreenChangeLineupButtonPressed;
+    private static boolean startGameButtonPressed;
     
     @Override
     public void keyPressed(KeyEvent e) {
@@ -25,6 +26,9 @@ public class KeyListener extends KeyAdapter {
                 break;
             case KeyEvent.VK_0:
                 rightScreenChangeLineupButtonPressed = true;
+                break;
+            case KeyEvent.VK_ENTER:
+                startGameButtonPressed = true;
                 break;
         }
     }
@@ -44,4 +48,13 @@ public class KeyListener extends KeyAdapter {
     public static void setRightScreenChangeLineupButtonPressed(boolean rightScreenChangeLineupButtonPressed) {
         KeyListener.rightScreenChangeLineupButtonPressed = rightScreenChangeLineupButtonPressed;
     }
+
+    public static boolean isStartGameButtonPressed() {
+        return startGameButtonPressed;
+    }
+
+    public static void setStartGameButtonPressed(boolean startGameButtonPressed) {
+        KeyListener.startGameButtonPressed = startGameButtonPressed;
+    }
+    
 }

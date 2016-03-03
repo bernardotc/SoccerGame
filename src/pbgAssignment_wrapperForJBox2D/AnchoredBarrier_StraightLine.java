@@ -26,10 +26,10 @@ public class AnchoredBarrier_StraightLine extends AnchoredBarrier {
     }
 
     public AnchoredBarrier_StraightLine(float startx, float starty, float endx, float endy, Color col, String userData) {
-        this(startx, starty, endx, endy, col, userData, 0);
+        this(startx, starty, endx, endy, col, userData, false);
     }
     
-    public AnchoredBarrier_StraightLine(float startx, float starty, float endx, float endy, Color col, String userData, int groupIndex) {
+    public AnchoredBarrier_StraightLine(float startx, float starty, float endx, float endy, Color col, String userData, boolean collide) {
         startPos = new Vec2(startx, starty);
         endPos = new Vec2(endx, endy);
 
@@ -46,7 +46,7 @@ public class AnchoredBarrier_StraightLine extends AnchoredBarrier {
         chainShape.createChain(vertices, vertices.length);
         body.createFixture(chainShape, 0);
         this.col = col;
-        body.m_fixtureList.m_filter.groupIndex = groupIndex;
+        body.m_fixtureList.m_isSensor = collide;
     }
 
     @Override

@@ -17,8 +17,8 @@ public class SoccerBall extends BasicCircle {
 
     private float startingX, startingY;
 
-    public SoccerBall(float sx, float sy, float vx, float vy, float radius, Color col, float mass, float rollingFriction, String data, int groupIndex) {
-        super(sx, sy, vx, vy, radius, col, mass, rollingFriction, data, groupIndex);
+    public SoccerBall(float sx, float sy, float vx, float vy, float radius, Color col, float mass, float rollingFriction, String data, boolean collision) {
+        super(sx, sy, vx, vy, radius, col, mass, rollingFriction, data, collision);
         startingX = sx;
         startingY = sy;
         body.setLinearDamping(rollingFriction);

@@ -18,6 +18,7 @@ public class Lineup {
     lineups strategy;
 
     public static enum lineups {
+
         BALANCED, WING_ATTACK, THREE_DEFENSE
     }
 
@@ -29,7 +30,7 @@ public class Lineup {
     public ArrayList<Vec2> getPositions() {
         return positions;
     }
-    
+
     public final void resetPositions(boolean leftSideOfScreen) {
         positions = new ArrayList<>();
         switch (strategy) {
@@ -83,5 +84,5 @@ public class Lineup {
             }
         }
     }
-    
+
 }

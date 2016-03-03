@@ -59,12 +59,7 @@ public class GameEngineUsingJBox2D {
     public static float convertScreenYtoWorldY(int screenY) {
         return (SCREEN_HEIGHT - screenY) * WORLD_HEIGHT / SCREEN_HEIGHT;
     }
-
-    public static enum LayoutMode {
-        SOCCER_FIELD, RECTANGLE
-    };
-
-    public List<AnchoredBarrier> barriers;
+    
     public SoccerGame soccer;
 
     public GameEngineUsingJBox2D() {
@@ -72,50 +67,8 @@ public class GameEngineUsingJBox2D {
         world.setContinuousPhysics(true);
         CollisionDetection listener = new CollisionDetection();
         world.setContactListener(listener);
-        LayoutMode layout = LayoutMode.SOCCER_FIELD;
         
         soccer = new SoccerGame();
-
-        barriers = new ArrayList<AnchoredBarrier>();
-
-        switch (layout) {
-            case RECTANGLE: {
-                // rectangle walls:
-                // anticlockwise listing
-                // These would be better created as a JBox2D "chain" type object for efficiency and potentially better collision detection at joints. 
-                barriers.add(new AnchoredBarrier_StraightLine(0, 0, WORLD_WIDTH, 0, Color.WHITE, "bottom"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH, 0, WORLD_WIDTH, WORLD_HEIGHT, Color.WHITE, "right"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH, WORLD_HEIGHT, 0, WORLD_HEIGHT, Color.WHITE, "top"));
-                barriers.add(new AnchoredBarrier_StraightLine(0, WORLD_HEIGHT, 0, 0, Color.WHITE, "left"));
-                break;
-            }
-            case SOCCER_FIELD: {
-                // anticlockwise listing
-                // These would be better created as a JBox2D "chain" type object for efficiency and potentially better collision detection at joints. 
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3 / 16, WORLD_HEIGHT  * 2/ 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT *2/ 16, Color.WHITE, "bottom wall"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT *2 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "right wall"));
-
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "bottom wall"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "right wall"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "top wall"));
-
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 12 / 16, Color.WHITE, "right wall"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 12 / 16, WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 12 / 16, Color.WHITE, "top wall"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 12 / 16, WORLD_WIDTH *3/ 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "left wall"));
-
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH *3/ 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH *2 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "top wall"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH* 2/ 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH *2/ 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "left wall"));
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH*2 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH *3/ 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "bottom wall"));
-
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3/ 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH  * 3/ 16, WORLD_HEIGHT* 2 / 16, Color.WHITE, "left wall"));
-                
-                // left goal line
-                //barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH* 3/ 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 3/ 16, WORLD_HEIGHT * 9 / 16, Color.GRAY, "left goal", -1));
-                // right goal line
-                //barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 9 / 16, Color.GRAY, "right goal", -1));
-                break;
-            }
-        }
     }
 
     public static void main(String[] args) throws Exception {

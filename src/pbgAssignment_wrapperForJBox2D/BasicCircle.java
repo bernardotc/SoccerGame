@@ -35,10 +35,10 @@ public class BasicCircle {
     }
     
     public BasicCircle(float sx, float sy, float vx, float vy, float radius, Color col, float mass, float rollingFriction, String data) {
-        this(sx, sy, vx, vy, radius, col, mass, rollingFriction, "", 0);
+        this(sx, sy, vx, vy, radius, col, mass, rollingFriction, "", false);
     }
     
-    public BasicCircle(float sx, float sy, float vx, float vy, float radius, Color col, float mass, float rollingFriction, String data, int groupIndex) {
+    public BasicCircle(float sx, float sy, float vx, float vy, float radius, Color col, float mass, float rollingFriction, String data, boolean collision) {
         World w = GameEngineUsingJBox2D.world; // a Box2D object
         BodyDef bodyDef = new BodyDef();  // a Box2D object
         bodyDef.type = BodyType.DYNAMIC; // this says the physics engine is to move it automatically
@@ -55,7 +55,7 @@ public class BasicCircle {
         fixtureDef.friction = 0.0f;// this is surface friction;
         fixtureDef.restitution = 1.0f;
         body.createFixture(fixtureDef);
-        body.m_fixtureList.m_filter.groupIndex = groupIndex;
+        body.m_fixtureList.m_isSensor = collision;
         this.mass = mass;
         this.SCREEN_RADIUS = (int) Math.max(GameEngineUsingJBox2D.convertWorldLengthToScreenLength(radius), 1);
         this.col = col;

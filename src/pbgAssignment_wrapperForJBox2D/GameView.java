@@ -38,9 +38,6 @@ public class GameView extends JComponent {
         g.setColor(BG_COLOR);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        for (AnchoredBarrier b : game.barriers) {
-            b.draw(g);
-        }
         game.soccer.draw(g);
 
     }
