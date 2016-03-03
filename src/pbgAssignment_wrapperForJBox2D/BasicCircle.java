@@ -79,4 +79,8 @@ public class BasicCircle {
             body.setTransform(new Vec2(body.getPosition().x, body.getPosition().y-.01f), 0);
         } 
     }
+    
+    public boolean notMoving() {
+        return body.m_linearVelocity.length() <= 0.001f;
+    }
 }

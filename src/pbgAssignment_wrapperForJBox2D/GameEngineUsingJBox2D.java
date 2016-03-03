@@ -110,9 +110,9 @@ public class GameEngineUsingJBox2D {
                 barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3/ 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH  * 3/ 16, WORLD_HEIGHT* 2 / 16, Color.WHITE, "left wall"));
                 
                 // left goal line
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH* 3/ 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 3/ 16, WORLD_HEIGHT * 9 / 16, Color.GRAY, "left goal", -1));
+                //barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH* 3/ 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 3/ 16, WORLD_HEIGHT * 9 / 16, Color.GRAY, "left goal", -1));
                 // right goal line
-                barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 9 / 16, Color.GRAY, "right goal", -1));
+                //barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 9 / 16, Color.GRAY, "right goal", -1));
                 break;
             }
         }

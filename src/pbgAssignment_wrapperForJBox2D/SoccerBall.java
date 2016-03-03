@@ -38,6 +38,7 @@ public class SoccerBall extends BasicCircle {
     public void setToStartingPosition() {
         body.setAngularVelocity(0);
         body.setLinearVelocity(new Vec2(0, 0));
+        body.setLinearDamping(2);
         body.setTransform(new Vec2(startingX, startingY), 0);
     }
     

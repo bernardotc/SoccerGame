@@ -18,6 +18,7 @@ public class SoccerPlayer extends BasicCircle {
     private boolean click = false;
     private int maxPosX = 0, maxPosY = 0;
     private int velX, velY;
+    private boolean turn = false;
 
     public SoccerPlayer(float sx, float sy, float vx, float vy, float radius, Color col, float mass, float rollingFriction, String data) {
         super(sx, sy, vx, vy, radius, col, mass, rollingFriction, data);
@@ -27,7 +28,7 @@ public class SoccerPlayer extends BasicCircle {
 
     @Override
     public void draw(Graphics2D g) {
-        if (MouseListener.isMouseButtonPressed() && click) {
+        if (MouseListener.isMouseButtonPressed() && click && turn) {
             //System.out.println(MouseListener.isMouseButtonPressed());
             int x = GameEngineUsingJBox2D.convertWorldXtoScreenX(body.getPosition().x);
             int y = GameEngineUsingJBox2D.convertWorldYtoScreenY(body.getPosition().y);
@@ -43,7 +44,7 @@ public class SoccerPlayer extends BasicCircle {
                 endy = GameEngineUsingJBox2D.SCREEN_HEIGHT - 2 * Math.abs(GameEngineUsingJBox2D.SCREEN_HEIGHT / 2 - GameEngineUsingJBox2D.convertWorldXtoScreenX(body.getPosition().y)) - MouseListener.getMouseY();
 
             }
-            if ((int) Math.hypot(endx - x, endy - y) <= 300) {
+            if ((int) Math.hypot(endx - x, endy - y) <= 200) {
                 //System.out.println((maxPosX - x) + ":" + (maxPosY - y));
                 maxPosX = endx;
                 maxPosY = endy;
@@ -51,8 +52,8 @@ public class SoccerPlayer extends BasicCircle {
                 velY = y - endy;
             } else {
                 //System.out.println((int) Math.hypot(endx - x, endy - y) + "/" + (endx - x) + ":" + (endy - y));
-                maxPosX = (int) ((endx - x) * 300 / Math.hypot(endx - x, endy - y)) + x;
-                maxPosY = (int) ((endy - y) * 300 / Math.hypot(endx - x, endy - y)) + y;
+                maxPosX = (int) ((endx - x) * 200 / Math.hypot(endx - x, endy - y)) + x;
+                maxPosY = (int) ((endy - y) * 200 / Math.hypot(endx - x, endy - y)) + y;
                 velX = endx - x;
                 velY = y - endy;
                 //System.out.println((maxPosX - x) + "::::" + (maxPosY - y));
@@ -67,30 +68,34 @@ public class SoccerPlayer extends BasicCircle {
         }
     }
 
-    public void checkMouseEvent() {
-        if (MouseListener.isMouseButtonPressed() && (MouseListener.getPlayer() == null || MouseListener.getPlayer() == this)) {
+    public boolean checkMouseEvent() {
+        if (turn && MouseListener.isMouseButtonPressed() && (MouseListener.getPlayer() == null || MouseListener.getPlayer() == this)) {
             Vec2 mouseCoordinates = MouseListener.getWorldCoordinatesOfMousePointer();
             if (body.m_fixtureList.testPoint(mouseCoordinates)) {
                 click = true;
                 MouseListener.setPlayer(this);
             }
         } else {
-            if (MouseListener.getPlayer() == this) {
+            if (MouseListener.getPlayer() == this && Math.hypot(velX, velY) > SCREEN_RADIUS) {
+                //System.out.println(Math.hypot(velX, velY) + " / " + SCREEN_RADIUS);
                 MouseListener.setPlayer(null);
                 Vec2 velocity = new Vec2(GameEngineUsingJBox2D.convertScreenXtoWorldX(velX), GameEngineUsingJBox2D.convertScreenXtoWorldX(velY));
                 velocity.mulLocal(5);
                 body.setLinearVelocity(velocity);
+                return true;
+            } else if (MouseListener.getPlayer() == this) {
+                MouseListener.setPlayer(null);
             }
             click = false;
         }
+        return false;
     }
     
     public void checkPlayerNotInGoal(float leftLimit, float rightLimit) {
         if (body.getPosition().x < leftLimit) {
-            System.out.println(body.getPosition().x);
-            body.setTransform(new Vec2(leftLimit * 2, body.getPosition().y), 0);
+            body.setTransform(new Vec2(leftLimit * 1.5f, body.getPosition().y), 0);
         } else if (body.getPosition().x > rightLimit) {
-            body.setTransform(new Vec2(rightLimit * 10 / 13, body.getPosition().y), 0);
+            body.setTransform(new Vec2(rightLimit * 11.5f / 13f, body.getPosition().y), 0);
         }
     }
     
@@ -98,6 +103,10 @@ public class SoccerPlayer extends BasicCircle {
         body.setAngularVelocity(0);
         body.setLinearVelocity(new Vec2(0, 0));
         body.setTransform(position, 0);
+    }
+
+    public void setTurn(boolean turn) {
+        this.turn = turn;
     }
 
 }

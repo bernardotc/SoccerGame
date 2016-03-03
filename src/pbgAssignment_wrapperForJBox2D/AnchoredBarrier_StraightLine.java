@@ -36,7 +36,7 @@ public class AnchoredBarrier_StraightLine extends AnchoredBarrier {
         World w = GameEngineUsingJBox2D.world;
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyType.KINEMATIC;
+        bodyDef.type = BodyType.STATIC;
         bodyDef.position = new Vec2(startx, starty);
         bodyDef.userData = userData;
         Body body = w.createBody(bodyDef);
@@ -44,8 +44,6 @@ public class AnchoredBarrier_StraightLine extends AnchoredBarrier {
         Vec2[] vertices = new Vec2[]{new Vec2(), new Vec2(endx - startx, endy - starty)};
         ChainShape chainShape = new ChainShape();
         chainShape.createChain(vertices, vertices.length);
-        EdgeShape edgeShape = new EdgeShape();
-        edgeShape.set(vertices[0], vertices[1]);
         body.createFixture(chainShape, 0);
         this.col = col;
         body.m_fixtureList.m_filter.groupIndex = groupIndex;

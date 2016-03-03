@@ -27,7 +27,7 @@ public class SoccerTeam {
         lineup = new Lineup(l, this.leftSideOfScreen);
         for (int x = 0; x < lineup.getPositions().size(); x++) {
             Vec2 pos = lineup.getPositions().get(x);
-            players.add(new SoccerPlayer(pos.x, pos.y, 0, 0, .2f, color, 10, 2f, "player"));
+            players.add(new SoccerPlayer(pos.x, pos.y, 0, 0, .2f, color, 12, 2f, "player"));
         }
     }
 
@@ -41,4 +41,37 @@ public class SoccerTeam {
             players.get(x).setToStartingPosition(pos);
         }
     }
+    
+    public boolean playTurn(boolean turn) {
+        boolean response = false;
+        for (SoccerPlayer p:players) {
+            if (p.checkMouseEvent()) 
+                response = !response;
+            p.modifyPositionAccordingToWall();
+            //p.checkPlayerNotInGoal(leftLimit, rightLimit);
+        }
+        return response;
+    }
+    
+    public void setTurn(boolean turn) {
+        for (SoccerPlayer p:players)
+            p.setTurn(turn);
+    }
+
+    public Color getColor() {
+        return color;
+    }
+    
+    public boolean playersNotMoving() {
+        for (SoccerPlayer p:players) {
+            if (!p.notMoving())
+                return false;
+        }
+        return true;
+    }
+    
+    public void checkPlayersNotInGoal(float leftLimit, float rightLimit) {
+        for (SoccerPlayer p:players)
+            p.checkPlayerNotInGoal(leftLimit, rightLimit);
+    }  
 }

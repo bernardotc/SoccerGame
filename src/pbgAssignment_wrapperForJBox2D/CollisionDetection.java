@@ -31,7 +31,6 @@ public class CollisionDetection implements ContactListener {
             System.out.println("Collision");
         } else */
         if (aux != null && aux.equals("bottom wall") || aux2 != null && aux2.equals("bottom wall")) {
-            System.out.println("Bottom");
             circleCollisioningWithBottomWall = true;
             if (aux != null && (aux.equals("player") || aux.equals("ball"))) {
                 circleCollidingBody = contact.m_fixtureA.m_body;
