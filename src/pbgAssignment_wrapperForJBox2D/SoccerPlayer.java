@@ -28,11 +28,13 @@ public class SoccerPlayer extends BasicCircle {
 
     @Override
     public void draw(Graphics2D g) {
+        // Check if it is your turn, the mouse is pressed and the click was done inside this object.
         if (MouseListener.isMouseButtonPressed() && click && turn) {
             //System.out.println(MouseListener.isMouseButtonPressed());
             int x = GameEngineUsingJBox2D.convertWorldXtoScreenX(body.getPosition().x);
             int y = GameEngineUsingJBox2D.convertWorldYtoScreenY(body.getPosition().y);
             int endx, endy;
+            // Adjust endx and endy depending on the side of the screen they are based on the center of the screen.
             if (x > GameEngineUsingJBox2D.SCREEN_WIDTH / 2) {
                 endx = GameEngineUsingJBox2D.SCREEN_WIDTH + 2 * Math.abs(GameEngineUsingJBox2D.SCREEN_WIDTH / 2 - GameEngineUsingJBox2D.convertWorldXtoScreenX(body.getPosition().x)) - MouseListener.getMouseX();
             } else {
@@ -44,6 +46,8 @@ public class SoccerPlayer extends BasicCircle {
                 endy = GameEngineUsingJBox2D.SCREEN_HEIGHT - 2 * Math.abs(GameEngineUsingJBox2D.SCREEN_HEIGHT / 2 - GameEngineUsingJBox2D.convertWorldXtoScreenX(body.getPosition().y)) - MouseListener.getMouseY();
 
             }
+            
+            // If the distance from the body is less than 200 pixels
             if ((int) Math.hypot(endx - x, endy - y) <= 200) {
                 //System.out.println((maxPosX - x) + ":" + (maxPosY - y));
                 maxPosX = endx;
@@ -69,14 +73,18 @@ public class SoccerPlayer extends BasicCircle {
     }
 
     public boolean checkMouseEvent() {
+        // If it is this player's turn and the mouse button is pressed and there is not selected player yet
         if (turn && MouseListener.isMouseButtonPressed() && (MouseListener.getPlayer() == null || MouseListener.getPlayer() == this)) {
             Vec2 mouseCoordinates = MouseListener.getWorldCoordinatesOfMousePointer();
+            // Check if the click was made inside the dimensions of this object
             if (body.m_fixtureList.testPoint(mouseCoordinates)) {
                 click = true;
                 MouseListener.setPlayer(this);
             }
         } else {
             click = false;
+            // Not my turn or the mouse button is not loger pressed.
+            // If it was my turn and the player pressed was this object then set the velocity
             if (MouseListener.getPlayer() == this && Math.hypot(velX, velY) > SCREEN_RADIUS) {
                 //System.out.println(Math.hypot(velX, velY) + " / " + SCREEN_RADIUS);
                 MouseListener.setPlayer(null);
@@ -84,6 +92,7 @@ public class SoccerPlayer extends BasicCircle {
                 velocity.mulLocal(5);
                 body.setLinearVelocity(velocity);
                 return true;
+            // This if lets you to deselect the player and select another one
             } else if (MouseListener.getPlayer() == this) {
                 MouseListener.setPlayer(null);
             }

@@ -47,6 +47,7 @@ public class SoccerGame {
         ball = new SoccerBall(WORLD_WIDTH * 8 / 16, WORLD_HEIGHT * 7 / 16, 0, 0, .1f, Color.WHITE, 2.5f, 2f, "ball", false);
     }
 
+    // reset the class to its initial settings.
     public final void reset() {
         leftSide.setPlayersToLineUp();
         rightSide.setPlayersToLineUp();
@@ -72,6 +73,7 @@ public class SoccerGame {
         rightSide.setTurn(false);
     }
 
+    // reset the game for the next turn (there was a goal or a player was too slow)
     public void eventGameReset(boolean leftSideGoal) {
         goal = piecesMoving = false;
         if (!firstTurn && !slowTurn) {
@@ -100,12 +102,14 @@ public class SoccerGame {
 
     public void update() {
         if (!start && !end) {
+            // update left player side
             if (!slowTurn && leftSide.playTurn(leftTurn)) {
                 setTurnToFalse();
                 piecesMoving = true;
                 leftTurn = !leftTurn;
             }
             
+            // update right player side
             if (!slowTurn && rightSide.playTurn(leftTurn)) {
                 setTurnToFalse();
                 piecesMoving = true;
@@ -114,6 +118,7 @@ public class SoccerGame {
             
             ball.modifyPositionAccordingToWall();
             
+            // check if there was a goal
             if (!goal && ball.checkIfGoal(WORLD_WIDTH * 3 / 16, WORLD_WIDTH * 13 / 16) != null) {
                 leftSideGoal = ball.checkIfGoal(WORLD_WIDTH * 3 / 16, WORLD_WIDTH * 13 / 16);
                 goal = true;
@@ -121,6 +126,7 @@ public class SoccerGame {
                 goalTimer.reset();
             }
 
+            // start the next turn.
             if (!goal && piecesMoving && leftSide.playersNotMoving() && rightSide.playersNotMoving() && ball.notMoving()) {
                 //System.out.println("New turn");
                 if (firstTurn) {
@@ -133,6 +139,7 @@ public class SoccerGame {
                 turnTimer.reset();
             }
 
+            // The goal timer has finished, reset game for the next turn
             if (goal && goalTimer.getMilliseconds() >= 3000) {
                 //System.out.println("Reset beacuse of goal");
                 eventGameReset(leftSideGoal);
@@ -154,6 +161,7 @@ public class SoccerGame {
                 }
             }
 
+            // the player was too slow. Set the timers.
             if (!piecesMoving && turnTimer.getMilliseconds() >= 10000) {
                 slowTurn = true;
                 MouseListener.setMouseButtonPressed(false);
@@ -162,6 +170,7 @@ public class SoccerGame {
                 turnTimer.reset();
             }
 
+            // After the slow Timer has finished, change turn of the game.
             if (slowTurn && slowTimer.getMilliseconds() >= 1500) {
                 leftTurn = !leftTurn;
                 eventGameReset(false);
@@ -209,6 +218,7 @@ public class SoccerGame {
             }
             ball.draw(g);
 
+            // Draw all the infomartion from the top of the screen
             g.scale(3, 3);
             g.setColor(leftSide.getColor());
             g.drawChars(String.valueOf(leftScore).toCharArray(), 0, String.valueOf(leftScore).length(), SCREEN_WIDTH * 6 / 16 / 3, SCREEN_HEIGHT * 1 / 16 / 3);
@@ -230,11 +240,13 @@ public class SoccerGame {
             g.scale(1 / 3.f, 1 / 3.f);
             g.drawChars((preLineupText + rightSide.getLineup().strategy.toString() + rightPosLineupText).toCharArray(), 0, (preLineupText + rightSide.getLineup().strategy.toString() + rightPosLineupText).length(), SCREEN_WIDTH * 10 / 16, SCREEN_HEIGHT * 3 / 32);
 
+            // Draw the team that has the turn
             g.scale(3, 3);
             if (!leftTurn && !piecesMoving && !goal) {
                 g.drawChars((rightTeamText + turn).toCharArray(), 0, (rightTeamText + turn).length(), SCREEN_WIDTH * 6 / 16 / 3 + 2, SCREEN_HEIGHT * 3 / 16 / 3);
             }
 
+            // Draw the timer
             g.scale(2 / 3.f, 2 / 3.f);
             if (!piecesMoving && !slowTurn) {
                 g.setColor(Color.LIGHT_GRAY);
@@ -242,12 +254,14 @@ public class SoccerGame {
                 g.drawChars((timeLeftText + time).toCharArray(), 0, (timeLeftText + time).length(), SCREEN_WIDTH * 7 / 16 / 2, SCREEN_HEIGHT * 4 / 16 / 2 - 2);
             }
 
+            // Draw the slow message
             if (slowTurn) {
                 g.scale(6, 6);
                 g.setColor(Color.LIGHT_GRAY);
                 g.drawChars(slowText.toCharArray(), 0, slowText.length(), SCREEN_WIDTH * 1 / 16 / 5 + 5, SCREEN_HEIGHT * 4 / 16 / 5);
             }
 
+            // Draw the goal message
             g.scale(3 / 2.f, 3 / 2.f);
             if (goal) {
                 g.scale(6, 6);
@@ -259,6 +273,7 @@ public class SoccerGame {
                 }
             }
         } else {
+            // Start screen
             if (start) {
                 g.scale(12, 12);
                 g.setColor(Color.LIGHT_GRAY);
@@ -271,6 +286,7 @@ public class SoccerGame {
                 g.setColor(Color.YELLOW);
                 g.drawChars(startGameText.toCharArray(), 0, startGameText.length(), SCREEN_WIDTH * 6 / 16 / 2, SCREEN_HEIGHT * 14 / 16 / 2);
             }
+            // End screen
             if (end) {
                 g.scale(12, 12);
                 g.setColor(Color.LIGHT_GRAY);

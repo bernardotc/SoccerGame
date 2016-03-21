@@ -68,6 +68,7 @@ public class BasicCircle {
         g.fillOval(x - SCREEN_RADIUS, y - SCREEN_RADIUS, 2 * SCREEN_RADIUS, 2 * SCREEN_RADIUS);
     }
     
+    // Checks if the object is colliding with a wall. Then it moves it a little.
     public void modifyPositionAccordingToWall() {
         if (CollisionDetection.circleCollisioningWithBottomWall && CollisionDetection.circleCollidingBody == this.body) {
             body.setTransform(new Vec2(body.getPosition().x, body.getPosition().y+.01f), 0);

@@ -68,6 +68,7 @@ public class GameEngineUsingJBox2D {
         CollisionDetection listener = new CollisionDetection();
         world.setContactListener(listener);
         
+        // Create the game
         soccer = new SoccerGame();
     }
 

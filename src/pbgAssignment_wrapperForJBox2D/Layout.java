@@ -22,6 +22,7 @@ public class Layout {
     };
     private ArrayList<AnchoredBarrier> barriers;
 
+    // Defines the layout of the field
     public Layout(LayoutMode l) {
         barriers = new ArrayList<>();
         switch (l) {
@@ -38,21 +39,27 @@ public class Layout {
             case SOCCER_FIELD: {
                 // anticlockwise listing
                 // These would be better created as a JBox2D "chain" type object for efficiency and potentially better collision detection at joints. 
+                
+                // bottom line, first right line from bottom to top
                 barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 2 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 2 / 16, Color.WHITE, "bottom wall"));
                 barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 2 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "right wall"));
 
+                // right goal
                 barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "bottom wall"));
                 barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "right wall"));
                 barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 14 / 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "top wall"));
 
+                // missing part of the right line, top line, the top part of the left line
                 barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 12 / 16, Color.WHITE, "right wall"));
                 barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 13 / 16, WORLD_HEIGHT * 12 / 16, WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 12 / 16, Color.WHITE, "top wall"));
                 barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 12 / 16, WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "left wall"));
 
+                // left goal
                 barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 9 / 16, WORLD_WIDTH * 2 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "top wall"));
                 barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 2 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 2 / 16, WORLD_HEIGHT * 9 / 16, Color.WHITE, "left wall"));
                 barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 2 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 5 / 16, Color.WHITE, "bottom wall"));
 
+                // complete the rectangle field
                 barriers.add(new AnchoredBarrier_StraightLine(WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 5 / 16, WORLD_WIDTH * 3 / 16, WORLD_HEIGHT * 2 / 16, Color.WHITE, "left wall"));
 
                 // left goal line
