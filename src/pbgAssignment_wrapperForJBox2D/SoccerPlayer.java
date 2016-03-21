@@ -76,6 +76,7 @@ public class SoccerPlayer extends BasicCircle {
                 MouseListener.setPlayer(this);
             }
         } else {
+            click = false;
             if (MouseListener.getPlayer() == this && Math.hypot(velX, velY) > SCREEN_RADIUS) {
                 //System.out.println(Math.hypot(velX, velY) + " / " + SCREEN_RADIUS);
                 MouseListener.setPlayer(null);
@@ -86,7 +87,6 @@ public class SoccerPlayer extends BasicCircle {
             } else if (MouseListener.getPlayer() == this) {
                 MouseListener.setPlayer(null);
             }
-            click = false;
         }
         return false;
     }

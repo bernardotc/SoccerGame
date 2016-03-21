@@ -42,12 +42,15 @@ public class SoccerGame {
         layout = new Layout(Layout.LayoutMode.SOCCER_FIELD);
         start = true;
         end = false;
-    }
-
-    public final void reset() {
         leftSide = new SoccerTeam(true, Lineup.lineups.BALANCED, Color.BLUE);
         rightSide = new SoccerTeam(false, Lineup.lineups.BALANCED, Color.RED);
         ball = new SoccerBall(WORLD_WIDTH * 8 / 16, WORLD_HEIGHT * 7 / 16, 0, 0, .1f, Color.WHITE, 2.5f, 2f, "ball", false);
+    }
+
+    public final void reset() {
+        leftSide.setPlayersToLineUp();
+        rightSide.setPlayersToLineUp();
+        ball.setToStartingPosition();
         leftScore = rightScore = 0;
         goal = piecesMoving = leftSideGoal = slowTurn = false;
         firstTurn = true;
@@ -80,6 +83,10 @@ public class SoccerGame {
                 leftTurn = false;
             }
         }
+        if (leftScore >= 3 || rightScore >= 3) {
+            end = true;
+            endTimer.reset();
+        }
         if (!slowTurn) {
             firstTurn = true;
             leftSide.setPlayersToLineUp();
@@ -93,26 +100,25 @@ public class SoccerGame {
 
     public void update() {
         if (!start && !end) {
-            if (leftSide.playTurn(leftTurn)) {
+            if (!slowTurn && leftSide.playTurn(leftTurn)) {
                 setTurnToFalse();
                 piecesMoving = true;
                 leftTurn = !leftTurn;
             }
-            if (rightSide.playTurn(leftTurn)) {
+            
+            if (!slowTurn && rightSide.playTurn(leftTurn)) {
                 setTurnToFalse();
                 piecesMoving = true;
                 leftTurn = !leftTurn;
             }
+            
             ball.modifyPositionAccordingToWall();
+            
             if (!goal && ball.checkIfGoal(WORLD_WIDTH * 3 / 16, WORLD_WIDTH * 13 / 16) != null) {
                 leftSideGoal = ball.checkIfGoal(WORLD_WIDTH * 3 / 16, WORLD_WIDTH * 13 / 16);
                 goal = true;
                 ball.body.setLinearDamping(8);
                 goalTimer.reset();
-                if (leftScore >= 3 || rightScore >= 3) {
-                    end = true;
-                    endTimer.reset();
-                }
             }
 
             if (!goal && piecesMoving && leftSide.playersNotMoving() && rightSide.playersNotMoving() && ball.notMoving()) {
@@ -150,6 +156,8 @@ public class SoccerGame {
 
             if (!piecesMoving && turnTimer.getMilliseconds() >= 10000) {
                 slowTurn = true;
+                MouseListener.setMouseButtonPressed(false);
+                MouseListener.setPlayer(null);
                 slowTimer.reset();
                 turnTimer.reset();
             }
@@ -159,7 +167,7 @@ public class SoccerGame {
                 eventGameReset(false);
             }
         } else {
-            if (KeyListener.isStartGameButtonPressed()) {
+            if (!end && KeyListener.isStartGameButtonPressed()) {
                 KeyListener.setStartGameButtonPressed(false);
                 reset();
                 start = false;

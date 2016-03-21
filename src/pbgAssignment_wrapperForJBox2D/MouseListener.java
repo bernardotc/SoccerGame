@@ -65,4 +65,8 @@ public class MouseListener extends MouseInputAdapter {
     public static void setPlayer(SoccerPlayer player) {
         MouseListener.player = player;
     }
+
+    public static void setMouseButtonPressed(boolean mouseButtonPressed) {
+        MouseListener.mouseButtonPressed = mouseButtonPressed;
+    }
 }
